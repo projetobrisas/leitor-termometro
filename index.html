@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cientistas de Dados - Leitor de Temperatura</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <style>
+    body { text-align: center; font-family: sans-serif; background: #f0f0f0; margin: 0; padding: 20px; }
+    canvas { border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .info { background: white; padding: 15px; border-radius: 10px; margin-top: 15px; }
+    #temp-val { font-size: 2.5em; font-weight: bold; color: #e74c3c; }
+  </style>
+</head>
+<body>
+  <h2>🌡️ Leitor de Temperatura Analógico</h2>
+  <div id="canvas-container"></div>
+  
+  <div class="info">
+    <p>Encaixe o termômetro na caixa vermelha e toque onde o ponteiro para:</p>
+    <div id="temp-val">-- °C</div>
+  </div>
+
+  <script>
+    let captura;
+    // Dimensões da "Caixa de Calibragem" na tela
+    let caixaX = 140; 
+    let caixaY = 30; // Topo (50°C)
+    let caixaL = 40;  // Largura
+    let caixaH = 180; // Altura total (De -40 a 50°C)
+    
+    // Valores de Temperatura que a caixa representa (Escala total)
+    let tempMaxima = 50;
+    let tempMinima = -40;
+
+    function setup() {
+      let canvas = createCanvas(320, 240);
+      canvas.parent('canvas-container');
+      captura = createCapture({ video: { facingMode: "environment" } });
+      captura.size(320, 240);
+      captura.hide();
+    }
+
+    function draw() {
+      image(captura, 0, 0, width, height);
+      
+      // Desenha a caixa de calibragem na tela
+      noFill();
+      stroke(255, 0, 0); // Vermelho
+      strokeWeight(2);
+      rect(caixaX, caixaY, caixaL, caixaH);
+      
+      // Marcas de referência na caixa
+      stroke(255);
+      strokeWeight(1);
+      text("50°C", caixaX + 5, caixaY + 12);
+      line(caixaX, caixaY + caixaH/2, caixaX + caixaL, caixaY + caixaH/2); // Linha média (aprox. 5°C neste exemplo)
+      text("-40°C", caixaX + 5, caixaY + caixaH - 5);
+    }
+
+    function mousePressed() {
+      // Verifica se o toque foi dentro da caixa
+      if (mouseX >= caixaX && mouseX <= caixaX + caixaL && mouseY >= caixaY && mouseY <= caixaY + caixaH) {
+        
+        // Mapeia a posição vertical (Y) do toque para a temperatura
+        // (yMap: caixaY é tempMaxima, caixaY+caixaH é tempMinima)
+        let temperaturaEstimada = map(mouseY, caixaY, caixaY + caixaH, tempMaxima, tempMinima);
+        
+        // Exibe o valor formatado
+        document.getElementById('temp-val').innerText = temperaturaEstimada.toFixed(1) + " °C";
+      }
+    }
+  </script>
+</body>
+</html>
