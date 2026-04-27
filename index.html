@@ -36,10 +36,11 @@
     let tempMinima = -40;
 
     function setup() {
-      let canvas = createCanvas(320, 240);
+      let canvas = createCanvas(320, 480);
       canvas.parent('canvas-container');
-      captura = createCapture({ video: { facingMode: "environment" } });
-      captura.size(320, 240);
+      captura = createCapture({ video: { facingMode: "environment" ,width: { ideal: 640 },
+      height: { ideal: 480 }} });
+      captura.size(320, 480);
       captura.hide();
     }
 
