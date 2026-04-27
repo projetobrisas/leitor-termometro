@@ -23,9 +23,13 @@
     let captura;
     // Dimensões da "Caixa de Calibragem" na tela
     let caixaX = 140; 
-    let caixaY = 30; // Topo (50°C)
+    //let caixaY = 30; // Topo (50°C)
+    let caixaY = 20;  // Ajuste para o topo (50°C) aparecer na tela
     let caixaL = 40;  // Largura
-    let caixaH = 180; // Altura total (De -40 a 50°C)
+    //let caixaH = 180; // Altura total (De -40 a 50°C)
+    // Se cada 10°C tem 1cm, e vamos supor que 1cm = 40 pixels na sua tela:
+    let caixaH = 360; // (90 graus total / 10) * 40 pixels por cm
+
     
     // Valores de Temperatura que a caixa representa (Escala total)
     let tempMaxima = 50;
